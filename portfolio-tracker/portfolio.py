@@ -1,8 +1,8 @@
 import yfinance as yf
 import json
-print('Type "done" when finished')
+print('Type "done" when finished or "remove" to remove a ticker')
 try:
-    with open('/Users/pieps/Projects/portfolio.json','r') as f:
+    with open('portfolio.json','r') as f:
         portfolio = json.load(f)
 except FileNotFoundError:
     portfolio = {}
@@ -10,17 +10,24 @@ while True:
     ticker = input('Ticker:')
     if ticker == 'done':
         break
-    while True:
+    if ticker == 'remove':
+        removed = input('Which ticker would you like to remove:')
         try:
-            shares = int(input('Shares:'))
-            break
-        except ValueError:
-            print('Must be a valid integer')
-    try:
-        (yf.Ticker(ticker)).info['quoteType']
-        portfolio[ticker] = shares
-    except (KeyError, Exception):
-        print('That ticker does not exist')
+            del portfolio[removed]
+        except KeyError:
+            print('That ticker does not exist in your portfolio')
+    else:
+        while True:
+            try:
+                shares = int(input('Shares:'))
+                break
+            except ValueError:
+                print('Must be a valid integer')
+        try:
+            (yf.Ticker(ticker)).info['quoteType']
+            portfolio[ticker] = shares
+        except (KeyError, Exception):
+            print('That ticker does not exist')
 
 total_value = 0
 print(f"{'Stock':<16}{'Price':>10}{'Shares':>13}{'Value':>15}")
@@ -38,5 +45,5 @@ for stock in portfolio:
 print('-' * 54)
 formatted = f"${total_value:.2f}"
 print(f"{'Total':<39}{formatted:>15}")
-with open('/Users/pieps/Projects/portfolio.json', 'w') as f:
+with open('portfolio.json', 'w') as f:
     json.dump(portfolio, f)
