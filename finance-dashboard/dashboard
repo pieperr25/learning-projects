@@ -1,0 +1,35 @@
+import yfinance as yf
+import matplotlib.pyplot as plt
+import pandas
+import json
+
+ticker = ['amzn','googl','voo']
+
+for i in ticker:
+    history = (yf.Ticker(i)).history()
+    close = history['Close']
+    first_price = close.iloc[0]
+    change = (close/first_price) * 100
+    dates = history.index
+    plt.plot(dates,change,label = i)
+
+
+plt.legend()
+plt.xlabel('Dates')
+plt.ylabel('Percent Change')
+plt.title(f'{', '.join([t.upper() for t in ticker])} Price History')
+plt.show()
+
+with open('/Users/pieps/Projects/portfolio.json','r') as file:
+    file = json.load(file)
+tickers = []
+share = []
+for i in file:
+    tickers.append(i.upper())
+    ticker_object = yf.Ticker(i)
+    price = (ticker_object.info.get('currentPrice')) or (ticker_object.info.get('regularMarketPrice'))
+    value = file[i] * price
+    share.append(value)
+plt.pie(share,labels = tickers,autopct='%1.1f%%')
+plt.title('Portfolio Allocation')
+plt.show()
