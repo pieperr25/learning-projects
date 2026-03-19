@@ -104,9 +104,7 @@ while True:
                 elif i.name == 'query_knowledge_base':
                     results.append({'type':'tool_result','tool_use_id':i.id,'content':str(rag_querry(i.input['query']))})
 
-        history,message = tool_use(history,result)
-
-
+        history,message = tool_use(history,results)
 
 
     print(message.content)

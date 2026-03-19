@@ -2,16 +2,12 @@ import requests
 import json
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-
 driver = webdriver.Chrome()
 url = driver.get("https://www.ycombinator.com/companies?batch=Spring%202026&batch=Winter%202026&batch=Fall%202025")
-
 
 while True:
     count = len(driver.find_elements(By.CLASS_NAME, "_coName_18olp_472"))
