@@ -1,13 +1,15 @@
-#psql -U postgres stockdata
-
-
 import psycopg2
 import yfinance as yf
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+key = os.getenv('ANTHROPIC_API_KEY')
 
 conn = psycopg2.connect(
     dbname="stockdata",
     user="postgres",
-    password="92312",
+    password=key,
     host="localhost",
     port="5432"
 )
@@ -54,6 +56,7 @@ curs = conn.cursor()
 curs.execute(
     "SELECT * FROM stockdata"
 )
+
 final_data  = curs.fetchall()
 print(final_data)
 print(f"{'Stock':<16}{'Open':>10}{'Market':>13}{'Day Change':>15}{'YTD Change':>13}")
