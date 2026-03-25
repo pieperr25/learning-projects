@@ -26,7 +26,6 @@ query = ['high rise apartment management company san francisco',
          'apartment building management company sf,'
          'HOA management san francisco']
 
-
 def find_place(query:list,key):
     data = []
     base_url = 'https://places.googleapis.com/v1/places:searchText'
@@ -36,7 +35,6 @@ def find_place(query:list,key):
                             json={'textQuery':i})
         data.extend(new_search.json()['places'])
     return data
-
 
 def database_upload(data:dict):
     for i in data:
@@ -53,8 +51,6 @@ def export_to_csv():
         curs.execute("SELECT * FROM lead_database")
         rows = curs.fetchall()
         writer.writerows(rows)
-
-    
 
 database = find_place(query,places_key)
 database_upload(database)

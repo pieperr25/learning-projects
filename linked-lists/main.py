@@ -107,18 +107,63 @@ class HashMap:
                 node = node.get_next()
         return False
 
+class TreeNode:
+    def __init__(self,value,left=None,right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+class BinarySearchTree:
+    def __init__(self,root=None):
+        self.root = root
+
+    def search(self,value):
+        current_node = self.root
+        if self.root.value == value:
+            return True
+        while True:
+            if value > current_node.value:
+                current_node = current_node.right
+                try:
+                    if current_node.value == value:
+                        return True
+                except AttributeError:
+                    return False
+            if value < current_node.value:
+                current_node = current_node.left
+                try:
+                    if current_node.value == value:
+                        return True
+                except AttributeError:
+                    return False
 
 
+    def insert(self,value):
+        if self.root == None:
+            self.root = TreeNode(value)
+            return
+        current_node = self.root
+        while True:
+            if value > current_node.value:
+                if current_node.right == None:
+                    current_node.right = TreeNode(value)
+                    break
+                else:
+                    current_node = current_node.right
+            if value < current_node.value:
+                if current_node.left == None:
+                    current_node.left = TreeNode(value)
+                    break
+                else:
+                    current_node = current_node.left
 
 
-
-hm = HashMap()
-hm.put("AAPL", 207.67)
-hm.put("TSLA", 348.21)
-hm.put("GOOGL", 307.69)
-print(hm.get("AAPL"))    # should print 207.67
-print(hm.get("TSLA"))    # should print 348.21
-hm.put("AAPL", 210.50)   # update existing key
-print(hm.get("AAPL"))    # should print 210.50
-hm.delete("TSLA")
-print(hm.get("TSLA"))    # should print None
+bst = BinarySearchTree()
+bst.insert(10)
+bst.insert(5)
+bst.insert(15)
+bst.insert(3)
+bst.insert(7)
+print(bst.search(7))    # True
+print(bst.search(12))   # False
+print(bst.search(15))   # True
